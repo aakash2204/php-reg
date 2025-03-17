@@ -1,4 +1,5 @@
 <?php
+session_start();
 $firstname = $_POST['firstname'];
 $lastname = $_POST['lastname'];
 $email = $_POST['email'];
@@ -14,7 +15,10 @@ if($conn->connect_error){
     $stmt=$conn->prepare("insert into registration(firstname,lastname,email,phonenumber,gender,username,password)values(?,?,?,?,?,?,?)");
     $stmt->bind_param("sssisss",$firstname,$lastname,$email,$phonenumber,$gender,$username,$password);
     $stmt->execute();
+    $_SESSION['username'] = $username;
     echo"registration successfully...";
     $stmt->close();
     $conn->close();
+    header("Location: welcome.php");
 }
+
